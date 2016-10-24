@@ -1,0 +1,288 @@
+body{
+    background-color: white;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    font-family: Verdana, Helvetica, sans-serif;
+    color: grey;
+}
+
+
+html, body { height:100%; }
+
+h1{
+    color: black;
+    text-align: center;
+
+}
+
+h2{
+    color: black;
+    text-align: center;
+}
+
+p{
+    color: #ff1100;
+
+}
+
+div#logo{
+    float: left;
+    vertical-align: text-bottom;
+}
+
+.head{
+    height: 100px;
+    background-color: #ff1100;
+
+}
+
+hr{
+    border: 1px solid grey;
+    height: 0px;
+    width: 98%;
+    border-radius: 100px;
+}
+
+.header-button{
+    background-color: black;
+    font-size: 12px;
+    padding: 16px 8px;
+    transition-duration: 0.4s;
+    color: white;
+    float: left;
+    cursor: pointer;
+    border: 0;
+
+
+}
+
+.search-button {
+    background-color: black;
+    font-size: 12px;
+    padding: 18px 9px;
+    transition-duration: 0.4s;
+    color: white;
+    float: left;
+    cursor: pointer;
+    border: 0;
+}
+
+.search-button:hover{
+    background-color: #4d4d4d;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+
+.header-button:hover{
+    background-color: #4d4d4d;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+
+.selection{
+    position: fixed;
+    background-color: black;
+    height: 48px;
+    width: 100%;
+    display: inline-block;
+    z-index: 5;
+
+
+}
+
+.selection-text{
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    padding: 16px 8px;
+    float: right;
+    border: 0px;
+
+}
+
+.main{
+    background-color: white;
+    border: 1px solid black;
+    height: auto;
+    width: 1000px;
+    color: #ff1100;
+    font-size: larger;
+    margin: auto;
+    border-radius: 8px;
+    margin-top: 100px;
+    
+}
+
+.posts{
+    background-color: white;
+    font-size: 12px;
+    padding: 16px;
+    transition-duration: 0.4s;
+    color: black;
+    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 30px;
+    align-content: center;
+    vertical-align: top;
+    horiz-align: left;
+    overflow-y: hidden;
+	max-height: 500px;
+
+}
+
+.posts:hover{
+    background-color: black;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    padding: 24px;
+
+}
+
+.posts.closed{
+    max-height: 0;
+}
+
+.author{
+    color: grey;
+    font-size: 40%;
+    text-align: center;
+
+}
+
+.post-text{
+    font-size: small;
+    background-color: white;
+    margin-right: 2%;
+    margin-left: 2%;
+    
+}
+
+.background{
+    background-color: #ff1100;
+    position: absolute;
+    width: 100%;
+    height: 80%;
+    margin-top: 48px;
+    overflow: auto;
+
+}
+
+.header {
+    background-color: transparent;
+    height: auto;
+    position: static;
+}
+
+.search{
+    border-radius: 30px;
+    margin-top: 15px;
+    float: left;
+    border: 1px solid black;
+    background-color: white;
+
+}
+
+.search[type=text] {
+    width: 5%;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+
+}
+
+input.search[type=text]:focus {
+    width: 20%;
+
+}
+
+.search:hover{
+    width: 20%;
+}
+
+
+.button{
+    background-color: red;
+    border: 0;
+    padding: 5px 12px;
+    border-radius: 7px;
+    box-shadow: -2px -2px 2px #D84124 inset, 2px 2px 3px #ff5c33 inset;
+    margin-top: 10px;
+    font-size: 12px;
+    margin-bottom: 10px
+}
+
+#login-main{
+    position: absolute;
+    background: #F8F8F8;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 600px;
+    height: 500px;
+    margin: auto;
+    border-radius: 15px;
+    border: 2px solid white;
+    box-shadow: 1px 1px 4px #aaaaaa;
+
+}
+
+#sign-up{
+        border-top: 1px solid #E3E4E5;
+}
+
+
+#login-table{
+    margin-left: 172px;
+
+}
+
+#sign-up-table{
+    margin-left: 117px
+}
+
+#login-header{
+    background-color: red;
+    min-height: 28px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 0 10px 10px 10px;
+}
+
+#login-logo{
+    width: 450px;
+    height: 150px;
+}
+
+.input-label{
+    font-size: 12px;
+    color: grey;
+    text-align: right;
+
+}
+
+.login-form-label{
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: black;
+    text-align: left;
+
+}
+
+#login-table{
+    margin-left: 192px;
+
+}
+
+#sign-up-table{
+    margin-left: 150px;
+
+}

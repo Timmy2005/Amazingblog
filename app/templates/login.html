@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="../static/styles.css"/>
+
+</head>
+
+
+
+<body>
+<!--
+{% block content %}
+    <script type="text/javascript">
+    function set_openid(openid, pr)
+    {
+        u = openid.search('<username>');
+        if (u != -1) {
+            // openid requires username
+            user = prompt('Enter your ' + pr + ' username:');
+            openid = openid.substr(0, u) + user;
+        }
+        form = document.forms['login'];
+        form.elements['openid'].value = openid;
+    }
+    </script>
+    <h1>Sign In</h1>
+    <form action="" method="post" name="login">
+        {{ form.hidden_tag() }}
+        <p>
+            Please enter your OpenID, or select one of the providers below:<br>
+            {{ form.openid(size=80) }}
+            {% for error in form.openid.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+            |{% for pr in providers %}
+                <a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}');">{{ pr.name }}</a> |
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me }} Remember Me</p>
+        <p><input type="submit" value="Sign In"></p>
+    </form>
+{% endblock %}
+
+--><div id="login-main">
+<div id="login-header"></div>
+<img src="../static/Pictures/pokemon-logo-1.gif" id="login-logo">
+    <form method="post">
+    <table id="login-table">
+        <tbody>
+        <tr>
+            <td></td>
+            <td class="login-form-label table-row">Sign in</td>
+        </tr>
+        <tr>
+            <td align="right"><label for="username" class="input-label">Username:</label></td>
+            <td>
+                <input name="username" type="text" id="username">
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><label for="password" class="input-label">Password:</label></td>
+            <td class="table-row">
+                <input name="password" type="text" id="password">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="left">
+                <input type="submit" value="Sign in" class="button" id="login-button">
+            </td>
+
+
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div id="sign-up">
+    <form method="post" action="../../create_user.py">
+        <table id="sign-up-table">
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td class="login-form-label table-row">Add account</td>
+                </tr>
+                <tr>
+                    <td align="right"><label class="input-label" for="new-username">Username:</label></td>
+                    <td>
+                        <input name="new-username" type="text" id="new-username">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label class="input-label" for="new-password">Password:</label></td>
+                    <td>
+                        <input name="new-password" type="text" id="new-password">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label class="input-label" for="confirm password">Retype Password:</label></td>
+                    <td><input name="confirm-password" type="text" id="confirm password"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="left">
+                        <input type="submit" class="button" value="Sign up">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+</div>
+</body>
+</html>
