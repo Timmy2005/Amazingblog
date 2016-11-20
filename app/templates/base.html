@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="../static/styles.css"/>
 </head>
 <body>
+<div>
+    <div class="logo-pokemon">
+        <img id="logo" src="../static/Pictures/pokemon-logo-1.gif">
+    </div>
 <div class="selection">
 
     <a href="index.html">
@@ -34,10 +38,13 @@
     <button class="selection-text">Awesomeblog.online</button>
 
     <form id="search-bar">
-        <input id="search-text" class="search" type="text" name="search" placeholder="Search.." autocomplete="off">
+        <input id="search-text" class="search" type="text" name="search" placeholder=" Search.." autocomplete="off">
         <script>search()</script>
     </form>
 </div>
-
+</div>
+<div>
+    {% block content %}{% endblock %}
+</div>
 </body>
 </html>

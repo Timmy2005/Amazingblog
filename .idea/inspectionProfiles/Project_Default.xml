@@ -33,6 +33,12 @@
         <list>
           <option value="flask.render_template" />
           <option value="flask.Flask" />
+          <option value="flask.flash" />
+          <option value="flask.redirect" />
+          <option value="flask.session" />
+          <option value="flask.url_for" />
+          <option value="flask.request" />
+          <option value="flask.g" />
         </list>
       </option>
     </inspection_tool>

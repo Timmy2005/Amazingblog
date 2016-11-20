@@ -2,43 +2,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ user.nickname }}!</h1>
-    {% for post in posts %}
-    <p>
-      {{ post.author.nickname }} says: <b>{{ post.body }}</b>
-    </p>
-    {% endfor %}
-
-
-{% endblock %}
-
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <title>Pokemon|Home</title>
-    <link rel="stylesheet" href="../static/styles.css"/>
-    <script src="../../main.js"></script>
-    <script src="../../jquery-3.1.0.js"></script>
-    <link rel="shortcut icon" href="../static/Pictures/1879714-pokeball.png"/>
-
-    <meta name="description" content="Cool pokemon blogs">
-    <meta name="keyword" content="pokemon blogs, pokemon, blogs, what is pokemon">
-    <meta name="author" content="Timothy">
-
-</head>
-<body>
-
-<div class="header">
-    <img id="logo" src="../static/Pictures/pokemon-logo-1.gif">
-</div>
-
-
 
 <div class="background">
     <div class="main">
+        <div align="center" id="posts-title">
+            Recent Posts
+        </div>
         <div align="center">
-            <h2>Recent Posts</h2>
-            <hr>
             <a href="https://www.youtube.com">
                 <button class="posts">TCD<br><img border="1px" src="../static/Pictures/imgres.jpg"></button>
             </a>
@@ -49,7 +19,4 @@
 
 </div>
 
-
-</body>
-</html>
--->
+{% endblock %}

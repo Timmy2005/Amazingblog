@@ -12,5 +12,6 @@ lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
 oid = OpenID(app, os.path.join(basedir, 'tmp'))
+logged_in_true = False
 
 from app import views, models

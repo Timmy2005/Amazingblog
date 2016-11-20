@@ -2,9 +2,10 @@ from app import db
 
 
 class User(db.Model):
-    username = db.Column(db.String(64), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
+    email = db.Column(db.String(120), unique=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     @property
@@ -21,12 +22,12 @@ class User(db.Model):
 
     def get_id(self):
         try:
-            return str(self.id)
+            return str(self.id)  # python 2
         except NameError:
-            return str(self.id)
+            return str(self.id)  # python 3
 
     def __repr__(self):
-        return '<User %r>' % self.user
+        return '<User %r>' % self.username
 
 
 class Post(db.Model):
