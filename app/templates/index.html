@@ -8,13 +8,19 @@
         <div align="center" id="posts-title">
             Recent Posts
         </div>
-        <div align="center">
-            <a href="https://www.youtube.com">
-                <button class="posts">TCD<br><img border="1px" src="../static/Pictures/imgres.jpg"></button>
-            </a>
-
-        </div>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        {% for posts in post %}
+                <div class="posts">
+                    <div class="post-header">
+                        <p class="title post-table">{{ posts.title.title() }}</p>
+                        <p class="author post-table">Author: {{ posts.author }}</p>
+                    </div>
+                    <br>
+                    <div><p class="post-content">{{ posts.body }}</p></div>
+                </div>
+        {% endfor %}
+    <a href="{{ url_for('post') }}">
+        <button class="button">New Post</button>
+    </a>
     </div>
 
 </div>

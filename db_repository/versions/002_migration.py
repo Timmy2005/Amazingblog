@@ -7,9 +7,18 @@ pre_meta = MetaData()
 post_meta = MetaData()
 post = Table('post', post_meta,
     Column('id', Integer, primary_key=True, nullable=False),
-    Column('body', String(length=140)),
+    Column('body', String(length=500)),
     Column('timestamp', DateTime),
-    Column('user_id', Integer),
+    Column('user_id', String(length=64)),
+    Column('title', String(length=64)),
+    Column('type', String(length=15)),
+)
+
+user = Table('user', post_meta,
+    Column('id', Integer, primary_key=True, nullable=False),
+    Column('username', String(length=64)),
+    Column('password', String(length=64)),
+    Column('email', String(length=120)),
 )
 
 
@@ -19,6 +28,8 @@ def upgrade(migrate_engine):
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
     post_meta.tables['post'].create()
+    post_meta.tables['user'].columns['password'].create()
+    post_meta.tables['user'].columns['username'].create()
 
 
 def downgrade(migrate_engine):
@@ -26,3 +37,5 @@ def downgrade(migrate_engine):
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
     post_meta.tables['post'].drop()
+    post_meta.tables['user'].columns['password'].drop()
+    post_meta.tables['user'].columns['username'].drop()

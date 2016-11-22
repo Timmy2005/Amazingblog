@@ -1,0 +1,36 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="background">
+    <div class="main">
+        <div align="center" id="posts-title">
+            New Post
+        </div>
+        <div>
+            <form method="post" action="{{ url_for('posting') }}">
+                <table>
+                    <tr>
+                        <td>
+                            <input name="title" placeholder="Title" autocomplete="off">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="content" placeholder="Your post here..." id="content" maxlength="2000" spellcheck="true"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="button" value="Post">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
