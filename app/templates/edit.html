@@ -1,0 +1,84 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="background">
+    <div class="main">
+        <div align="center" id="posts-title">
+            Edit Post
+        </div>
+        <div>
+            <form method="post" action="">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="hidden" value="{{ p.id }}" name="id">
+                            <input name="title" placeholder="Title" autocomplete="off" value="{{ p.title }}">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p>Subject:</p>
+                                    </td>
+                                    <td>
+                                        {% if type == 'none' %}
+                                        <input style="float: left;" type="radio" name="type" value="none" checked>
+                                        {% else %}
+                                        <input style="float: left;" type="radio" name="type" value="none">
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <p style="float: left;">&nbsp;&nbsp;None</p>
+                                    </td>
+                                    <td>
+                                        {% if type == 'pokego' %}
+                                        <input style="float: left;" type="radio" name="type" value="pokego" checked>
+                                        {% else %}
+                                        <input style="float: left;" type="radio" name="type" value="pokego">
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <p style="float: left;">&nbsp;&nbsp;Pokemon Go</p>
+                                    </td>
+                                    <td>
+                                        {% if type == 'tcg' %}
+                                        <input style="float: left;" type="radio" name="type" value="tcg" checked>
+                                        {% else %}
+                                        <input style="float: left;" type="radio" name="type" value="tcg">
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <p style="float: left;">&nbsp;&nbsp;TCG</p>
+                                    </td>
+                                    <td>
+                                        {% if type == 'movies' %}
+                                        <input style="float: left;" type="radio" name="type" value="movies" checked>
+                                        {% else %}
+                                        <input style="float: left;" type="radio" name="type" value="movies">
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <p style="float: left;">&nbsp;&nbsp;Movies</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="content" placeholder="Your post here..." id="content" spellcheck="true">{{ p.body }}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="button" value="Save">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

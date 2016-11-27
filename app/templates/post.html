@@ -9,16 +9,46 @@
             New Post
         </div>
         <div>
-            <form method="post" action="{{ url_for('posting') }}">
+            <form method="post" action="">
                 <table>
                     <tr>
                         <td>
                             <input name="title" placeholder="Title" autocomplete="off">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p>Subject:</p>
+                                    </td>
+                                    <td>
+                                        <input style="float: left;" type="radio" name="type" value="none" checked>
+                                    </td>
+                                    <td>
+                                        <p style="float: left;">&nbsp;&nbsp;None</p>
+                                    </td>
+                                    <td>
+                                        <input style="float: left;" type="radio" name="type" value="pokego">
+                                    </td>
+                                    <td>
+                                        <p style="float: left;">&nbsp;&nbsp;Pokemon Go</p>
+                                    </td>
+                                    <td>
+                                        <input style="float: left;" type="radio" name="type" value="tcg">
+                                    </td>
+                                    <td>
+                                        <p style="float: left;">&nbsp;&nbsp;TCG</p>
+                                    </td>                                    <td>
+                                        <input style="float: left;" type="radio" name="type" value="movies">
+                                    </td>
+                                    <td>
+                                        <p style="float: left;">&nbsp;&nbsp;Movies</p>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <textarea name="content" placeholder="Your post here..." id="content" maxlength="2000" spellcheck="true"></textarea>
+                            <textarea name="content" placeholder="Your post here..." id="content" spellcheck="true"></textarea>
                         </td>
                     </tr>
                     <tr>

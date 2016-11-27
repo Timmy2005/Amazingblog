@@ -2,10 +2,10 @@ from app import db
 
 
 class User(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    password = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), unique=True)
+    username = db.Column(db.String(64), index=True)
+    password = db.Column(db.String(64), index=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     @property
@@ -22,21 +22,35 @@ class User(db.Model):
 
     def get_id(self):
         try:
-            return str(self.id)  # python 2
+            return str(self.id)
         except NameError:
-            return str(self.id)  # python 3
+            return str(self.id)
 
     def __repr__(self):
         return '<User %r>' % self.username
 
 
 class Post(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(2000))
-    timestamp = db.Column(db.DateTime)
+    body = db.Column(db.String())
+    timestamp = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     title = db.Column(db.String(64))
-
+    user = db.Column(db.String(64))
+    type = db.Column(db.String())
 
     def __repr__(self):
         return '<Post %r>' % self.body
+
+
+class Youtube(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String())
+    link = db.Column(db.String())
+    body = db.Column(db.String())
+    timestamp = db.Column(db.String())
+
+    def __repr__(self):
+        return '<Link %r>' % self.link

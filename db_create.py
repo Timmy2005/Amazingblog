@@ -1,15 +1,33 @@
-#!flask/bin/python
-from migrate.versioning import api
-from config import SQLALCHEMY_DATABASE_URI
-from config import SQLALCHEMY_MIGRATE_REPO
-from app import db
-import os.path
+from app import db, models
+from datetime import datetime
+import app
 
+app.db.drop_all()
+app.db.create_all()
+u = models.User(username='timothy',
+                password='cleveland')
+db.session.add(u)
+db.session.commit()
 
-db.create_all()
-if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
-    api.create(SQLALCHEMY_MIGRATE_REPO, 'database repository')
-    api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-else:
-    api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO,
-                        api.version(SQLALCHEMY_MIGRATE_REPO))
+u = models.User(username='timmy',
+                password='cleveland')
+db.session.add(u)
+db.session.commit()
+
+now = datetime.now()
+posts = models.Post(title='A new app called Pokeblog!',
+                    body='This new app allows you to post new stuff about Pokemon!',
+                    timestamp=now.strftime('%b %-d, %Y at %I:%m %p'),
+                    user='timothy',
+                    type='')
+
+db.session.add(posts)
+db.session.commit()
+
+posts = models.Post(title='new user',
+                    body="I'm a new user! What can I do?",
+                    timestamp=now.strftime('%b %-d, %Y at %-I:%-M %p'),
+                    user='timmy',
+                    type='')
+db.session.add(posts)
+db.session.commit()

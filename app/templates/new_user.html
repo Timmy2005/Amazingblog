@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <script src="../static/main.js"></script>
+    <link rel="shortcut icon" href="../static/Pictures/Pokeblog-header.png" />
+    <link href="../static/styles.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+<div id="login-main">
+    <div id="login-header"></div>
+    <img src="../static/Pictures/pokemon-logo-1.gif" id="login-logo">
+    <div id="sign-up">
+        <form method="post" action="">
+            <table id="sign-up-table">
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td class="login-form-label table-row">Add account</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="padding: 0;">
+                        {% if error %}
+                        <p class=error style="color: red; margin: 0;"> {{ error }}
+                            {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right"><label class="input-label" for="new-username">Username:</label></td>
+                    <td>
+                        <input name="new-username" type="text" id="new-username">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label class="input-label" for="new-password">Password:</label></td>
+                    <td>
+                        <input name="new-password" type="password" id="new-password">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label class="input-label" for="confirm password">Retype Password:</label></td>
+                    <td><input name="confirm-password" type="password" id="confirm password"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="left"><input type="submit" class="button" value="Sign up"></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+        <div align="center"><p>or</p></div>
+        <div align="center">
+            <button class="button"><a href="{{ url_for('index') }}">Go to home</a></button>
+            <button class="button"><a href="{{ url_for('login') }}">Login with existing account</a></button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

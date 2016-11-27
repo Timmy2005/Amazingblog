@@ -1,8 +1,8 @@
 body{
     background-color: white;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
+    top: 0;
+    right: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -26,7 +26,7 @@ h2{
 }
 
 p{
-    color: #ff1100;
+    font-size: 10px;
 
 }
 
@@ -41,11 +41,18 @@ div#logo{
 
 }
 
-hr{
-    border: 1px solid grey;
-    height: 0px;
-    width: 98%;
-    border-radius: 100px;
+div.footer{
+
+    border-top: 1px solid #e4e6e8;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    width: 78%;
+    position: relative;
+    z-index: 50;
+    box-shadow: 0 -8px 8px -7px rgba(0,0,0,0.5);
+    margin-left: 11%;
+    min-height: 10%;
 }
 
 .header-button{
@@ -87,11 +94,14 @@ hr{
 }
 
 .selection{
+    height: 47px;
     background-color: black;
-    height: 48px;
     width: 100%;
     display: inline-block;
-    z-index: 5;
+    position: relative;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.4);
+    z-index: 99999;
+
 
 
 }
@@ -103,19 +113,49 @@ hr{
     font-size: 12px;
     padding: 16px 8px;
     float: right;
-    border: 0px;
+    border: 0;
 
 }
 
 .main{
     background-color: white;
-    height: auto;
-    width: 1000px;
-    color: #ff1100;
+    width: 78%;
     font-size: larger;
     margin: auto;
     border-radius: 0;
+    overflow: scroll;
+    max-height: 95%;
+    z-index: 1;
     
+}
+
+#main-with-youtube{
+    width: 800px;
+    margin-left: 140px;
+    margin-right: 0;
+    height: 200px;
+    float: left;
+    
+}
+
+#youtube{
+    margin-top: 10px;
+    min-height: 300px;
+    width: 190px;
+    float: right;
+    margin-right: 140px;
+    overflow: auto;
+    border: 1px solid #e4e6e8;
+    font-size: 60%;
+
+}
+
+#youtube-header{
+    background-color: black;
+    color: #ffffff;
+    height: 20px;
+    text-align: center;
+
 }
 
 .posts{
@@ -125,11 +165,6 @@ hr{
     border-bottom: 1px solid #e4e6e8;
     padding-bottom: 5px;
     padding-top: 5px;
-
-}
-
-.posts:hover{
-    cursor: pointer;
 
 }
 
@@ -153,9 +188,10 @@ hr{
     background-color: white;
     position: absolute;
     width: 100%;
-    height: 80%;
-    overflow: auto;
+    height: 75%;
     padding: 0;
+    z-index: 13;
+
 
 }
 
@@ -215,7 +251,7 @@ input.search[type=text]:focus {
     left: 0;
     right: 0;
     width: 600px;
-    height: 500px;
+    height: 450px;
     margin: auto;
     border-radius: 15px;
     border: 2px solid white;
@@ -264,6 +300,16 @@ input.search[type=text]:focus {
     color: black;
     text-align: left;
 
+}
+
+.youtube-post{
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+span{
+    vertical-align: middle;
+    font-size: 12px;
 }
 
 #login-table{
@@ -318,4 +364,32 @@ input.search[type=text]:focus {
     width: 400px;
     border: 1px solid lightgray;
     
+}
+
+*:focus {
+    outline: none;
+}
+
+input[type=radio] {
+    border: 0;
+    width: 100%;
+    height: 4em;
+
+}
+
+.message{
+    color: #ff0000;
+    font-size: 10px;
+    line-height: 1px;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+
+}
+
+.main-header{
+    height: 120px;
+
 }

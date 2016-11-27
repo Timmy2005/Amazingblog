@@ -2,8 +2,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Search results for "{{ query }}":</h1>
-  {% for post in results %}
-      {% include 'post.html' %}
-  {% endfor %}
+
+<!--suppress ALL -->
+<div class="background">
+    <div class="main">
+        <div align="center" id="posts-title">
+            Search Results
+        </div>
+
+        {% for posts in post %}
+        <div class="posts">
+            <div class="post-header">
+                <p class="title post-table">{{ posts.title }}</p>
+                {% if posts.user == current_user %}
+                <p class="author post-table">Post by: You</p>
+                {% else %}
+                <p class="author post-table">Post by: {{ posts.user }}</p>
+                {% endif %}
+                <p class="author post-table">Last edited: {{ posts.timestamp }}&nbsp;&nbsp;&nbsp;</p>
+            </div>
+            <br>
+            <div><p class="post-content">{{ posts.body }}</p></div>
+            <div>
+                {% if current_user == posts.user %}
+                    <table>
+                        <tr>
+                            <td>
+                                <form action="{{ url_for('edit') }}" method="get">
+                                    <input type="hidden" value="{{ posts.id }}" name="post-id">
+                                    <input type="submit" value="Edit" class="button">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('delete') }}" method="get">
+                                    <input type="hidden" value="{{ posts.id }}" name="post-id">
+                                    <input type="submit" value="Delete" class="button">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="footer"></div>
+
+</div>
+
 {% endblock %}

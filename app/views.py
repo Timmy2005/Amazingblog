@@ -1,96 +1,303 @@
-from flask import render_template, flash, redirect, session, url_for, request, g
-from app import app, db, lm, models
-from .models import User, Post
+from flask import render_template, redirect, url_for, request
+from app import app, db, models
+from .models import User, Post, Youtube
 from datetime import datetime
-
-
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+from flask import make_response
+from config import POSTS_PER_PAGE
 
 
 @app.route('/')
 @app.route('/index')
-def index():
-    user_id = request.cookies.get('session_id')
-    posts = models.Post.query.all()
-    return render_template('index.html',
-                           title='Home',
-                           post=posts)
+@app.route('/index/<int:page>')
+def index(page=1):
+    if request.cookies.get('user'):
+        signed_in = True
+        current_user = request.cookies.get('user')
+        posts = models.Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = models.User.query.all()
+
+        return render_template('index.html',
+                               title='Home',
+                               post=posts,
+                               users=users,
+                               signed_in=signed_in,
+                               current_user=current_user)
+    else:
+        signed_in = False
+        posts = models.Post.query.all()
+        users = models.User.query.all()
+
+        return render_template('index.html',
+                               title='Home',
+                               post=posts,
+                               users=users,
+                               signed_in=signed_in)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
+    if request.cookies.get('user'):
+        return redirect(url_for('index'))
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        users = models.User.query.all()
+        for i in users:
+            if username == i.username:
+                if password == i.password:
+                    response = redirect(url_for("index"))
+                    response.set_cookie('user', i.username)
+                    return response
+
+        error = 'Invalid login. Please try again.'
     return render_template('login.html',
-                           title='Login')
+                           title='Login',
+                           error=error)
 
 
-@app.route('/after-login', methods=['GET', 'POST'])
-def after_login():
-    username = request.form['username']
-    password = request.form['password']
-    users = models.User.query.all()
-    for i in users:
-        if username == i.username:
-            if password == i.password:
-                response = redirect(url_for("index"))
-                response.set_cookie('session-id', str(i.id))
-                response.set_cookie('user', i.username)
-                return response
-    flash('Invalid login. Please try again.')
-    return redirect(url_for('login'))
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    error = None
+    if request.method == 'POST':
+        username = request.form['new-username']
+        password = request.form['new-password']
+        users = models.User.query.all()
+        for i in users:
+            if i.username == username:
+                if i.password == password:
+                    error = 'Invalid username or password.'
+                    return render_template('new_user.html',
+                                           title='Create account - Pokeblog',
+                                           error=error)
 
-
-@app.route('/new-user', methods=['GET', 'POST'])
-def new_user():
-    username = request.form['new-username']
-    password = request.form['new-password']
-    users = models.User.query.all()
-    for i in users:
-        if i.username == username:
-            flash('This username is already taken.')
-            return redirect(url_for('login'))
-        if i.password == password:
-            flash('This password is already taken.')
-            return redirect(url_for('login'))
-    if request.form['email']:
-        email = request.form['email']
-        u = models.User(username=username, password=password, email=email)
-    else:
         u = models.User(username=username, password=password)
-    db.session.add(u)
-    db.session.commit()
-    response = redirect(url_for("index"))
-    response.set_cookie('session-id', str(u.id))
-    response.set_cookie('user', u.username)
-    return response
+        db.session.add(u)
+        db.session.commit()
+        response = redirect(url_for("index"))
+        response.set_cookie('user', username)
+        return response
 
-
-@app.route('/logout')
-def logout():
-    return redirect(url_for('index'))
+    return render_template('new_user.html',
+                           title='Create account - Pokeblog',
+                           error=error)
 
 
 @app.route('/tcg')
 def tcg():
-    posts = "i"
-    return render_template('tcg.html',
-                           title='TCG',
-                           post=posts)
+    if request.cookies.get('user'):
+        yposts = Youtube.query.order_by(models.Youtube.id.desc()).all()
+        signed_in = True
+        current_user = request.cookies.get('user')
+        posts = Post.query.filter(Post.type.contains('tcg'))
+        post_ordered = posts.order_by(models.Post.id.desc()).all()
+        users = models.User.query.all()
+
+        return render_template('tcg.html',
+                               title='TCG',
+                               post=post_ordered,
+                               users=users,
+                               signed_in=signed_in,
+                               current_user=current_user,
+                               yposts=yposts)
+
+    else:
+        signed_in = False
+        posts = Post.query.filter(Post.type.contains('tcg'))
+        post_ordered = posts.order_by(models.Post.id.desc()).all()
+        users = models.User.query.all()
+
+        return render_template('tcg.html',
+                               title='TCG',
+                               post=post_ordered,
+                               users=users,
+                               signed_in=signed_in)
+
+
+@app.route('/pokego')
+def pokego():
+    if request.cookies.get('user'):
+        signed_in = True
+        current_user = request.cookies.get('user')
+        posts = Post.query.filter(Post.type.contains('pokego'))
+        post_ordered = posts.order_by(models.Post.id.desc()).all()
+        users = models.User.query.all()
+
+        return render_template('pokego.html',
+                               title='Pokemon Go',
+                               post=post_ordered,
+                               users=users,
+                               signed_in=signed_in,
+                               current_user=current_user)
+    else:
+        signed_in = False
+        posts = Post.query.filter(Post.type.contains('pokego'))
+        post_ordered = posts.order_by(models.Post.id.desc()).all()
+        users = models.User.query.all()
+
+        return render_template('pokego.html',
+                               title='pokego',
+                               post=post_ordered,
+                               users=users,
+                               signed_in=signed_in)
+
+
+@app.route('/movies')
+def movies():
+    if request.cookies.get('user'):
+        signed_in = True
+        current_user = request.cookies.get('user')
+        posts = Post.query.filter(Post.type.contains('movies'))
+        post_ordered = posts.order_by(models.Post.id.desc()).all()
+        users = models.User.query.all()
+
+        return render_template('movies.html',
+                               title='Movies',
+                               post=post_ordered,
+                               users=users,
+                               signed_in=signed_in,
+                               current_user=current_user)
+    else:
+        signed_in = False
+        posts = Post.query.filter(Post.type.contains('movies'))
+        post_ordered = posts.order_by(models.Post.id.desc()).all()
+        users = models.User.query.all()
+
+        return render_template('movies.html',
+                               title='Movies',
+                               post=post_ordered,
+                               users=users,
+                               signed_in=signed_in)
+
+
+@app.route('/extra')
+def extra():
+    if request.cookies.get('user'):
+        signed_in = True
+        current_user = request.cookies.get('user')
+        users = models.User.query.all()
+
+        return render_template('extra.html',
+                               title='Extra',
+                               users=users,
+                               signed_in=signed_in,
+                               current_user=current_user)
+    else:
+        signed_in = False
+        users = models.User.query.all()
+
+        return render_template('extra.html',
+                               title='Extra',
+                               users=users,
+                               signed_in=signed_in)
 
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
-    return render_template('post.html',
-                           title='New Post')
+    if request.cookies.get('user'):
+        signed_in = True
+        current_user = request.cookies.get('user')
+        users = models.User.query.all()
+        if request.method == 'POST':
+            title = request.form['title']
+            content = request.form['content']
+            pokeblog_type = request.form['type']
+            p = Post(title=title,
+                     body=content,
+                     timestamp=datetime.now().strftime('%b %-d, %Y at %-I:%M %p'),
+                     user=current_user,
+                     type=pokeblog_type)
+            db.session.add(p)
+            db.session.commit()
+            return redirect(url_for('index'))
+
+        return render_template('post.html',
+                               title='New Post',
+                               users=users,
+                               signed_in=signed_in,
+                               current_user=current_user)
 
 
-@app.route('/posting', methods=['GET', 'POST'])
-def posting():
-    user_id = request.cookies.get('session_id')
-    title = request.form['title']
-    content = request.form['content']
-    p = Post(title=title, body=content, timestamp=datetime.utcnow(), author=user_id)
-    db.session.add(p)
+@app.route('/logout')
+def logout():
+    response = make_response(render_template('logout.html'))
+    response.set_cookie('user', '', expires=0)
+    return response
+
+
+@app.route('/edit', methods=['GET', 'POST'])
+def edit():
+    url = request.url
+    post_id_split = url.split("=")
+    p = models.Post.query.get(int(post_id_split[1]))
+    current_type = p.type
+
+    signed_in = True
+    current_user = request.cookies.get('user')
+    users = models.User.query.all()
+    if request.method == 'POST':
+        commit_post_id = request.form['id']
+        p = models.Post.query.get(commit_post_id)
+        db.session.delete(p)
+        db.session.commit()
+        user_id = request.cookies.get('user')
+        title = request.form['title']
+        content = request.form['content']
+        ptype = request.form['type']
+        p = Post(title=title,
+                 body=content,
+                 timestamp=datetime.now().strftime('%b %-d, %Y at %-I:%M %p'),
+                 user=user_id,
+                 type=ptype)
+        db.session.add(p)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    return render_template('edit.html',
+                           title='Edit',
+                           p=p,
+                           users=users,
+                           signed_in=signed_in,
+                           current_user=current_user,
+                           type=current_type)
+
+
+@app.route('/delete')
+def delete():
+    url = request.url
+    post_id_split = url.split("=")
+    p = models.Post.query.get(int(post_id_split[1]))
+    db.session.delete(p)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+@app.route('/search')
+def search():
+    if request.cookies.get('user'):
+        current_user = request.cookies.get('user')
+        url = request.url
+        text = url.split("=")
+        search_text = text[1]
+        posts = Post.query.filter(Post.title.contains(search_text))
+        posts.order_by(models.Post.id.desc()).all()
+        users = models.User.query.all()
+        return render_template('search_results.html',
+                               title='Search Results',
+                               post=posts,
+                               users=users,
+                               signed_in=True,
+                               current_user=current_user)
+
+    else:
+        posts = Post.query.filter(Post.type.contains('actfigs'))
+        posts.order_by(models.Post.id.desc()).all()
+        users = models.User.query.all()
+
+        return render_template('search_results.html',
+                               title='Search Results',
+                               post=posts,
+                               users=users,
+                               signed_in=False)
+
+

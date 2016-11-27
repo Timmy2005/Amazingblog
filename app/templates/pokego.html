@@ -1,57 +1,67 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Pokemon|Blog</title>
-    <link rel="shortcut icon" href="../static/Pictures/1879714-pokeball.png" />
-    <link rel="stylesheet" href="../static/styles.css"/>
-</head>
-<body>
+<!-- extend base layout -->
+{% extends "base.html" %}
 
-<div class="header">
-    <img id="logo" src="../static/Pictures/pokemon-logo-1.gif">
-</div>
+{% block content %}
 
-<div class="selection">
-
-    <a href="index.html">
-        <button class="button">Home</button>
-    </a>
-    <a href="pokego.html">
-        <button class="button">Pokemon Go</button>
-    </a>
-    </a>
-    <a href="tcg.html">
-        <button class="button">TCG</button>
-    </a>
-    </a>
-    <a href="movies.html">
-        <button class="button">Movies</button>
-    </a>
-    </a>
-    <a href="actfigs.html">
-        <button class="button">Action Figs</button>
-    </a>
-    <a>
-        <button class="button">Extra</button>
-    </a>
-
-    <button class="selection-text">Awesomeblog.online</button>
-
-    <form id="search-bar">
-        <input id="search-text" class="search" type="text" name="search" placeholder="Search.." autocomplete="off">
-        <script>search()</script>
-    </form>
-</div>
-
+<!--suppress ALL -->
 <div class="background">
-    <div class="main" align="center">
-        <h2 align="center">Pokemon Go Posts</h2>
-        <hr>
-        <a href="pokego_bracelet.html">
-            <button class="posts">Pokemon GO Plus<br><img src="../static/Pictures/pokeplus.png"></button>
-        </a>
+    <div class="main">
+        <div align="center" id="posts-title">
+            Pokemon Go Posts
+        </div>
+        {% for posts in post.items %}
+        <div class="posts">
+            <div class="post-header">
+                <p class="title post-table">{{ posts.title }}</p>
+                {% if posts.user == current_user %}
+                <p class="author post-table">Post by: You</p>
+                {% else %}
+                <p class="author post-table">Post by: {{ posts.user }}</p>
+                {% endif %}
+                <p class="author post-table">Last edited: {{ posts.timestamp }}&nbsp;&nbsp;&nbsp;</p>
+            </div>
+            <br>
+            <div><p class="post-content">{{ posts.body }}</p></div>
+            <div>
+                {% if current_user == posts.user %}
+                    <table>
+                        <tr>
+                            <td>
+                                <form action="{{ url_for('edit') }}" method="get">
+                                    <input type="hidden" value="{{ posts.id }}" name="post-id">
+                                    <input type="submit" value="Edit" class="button">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('delete') }}" method="get">
+                                    <input type="hidden" value="{{ posts.id }}" name="post-id">
+                                    <input type="submit" value="Delete" class="button">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    <div class="footer">
+    <div>
+        {% if post.has_prev %}<button class="button"><a href="{{ url_for('index', page=post.prev_num) }}">Previous page</a></button>
+        {% else %}<button class="button" style="cursor: not-allowed;">Previous page</button>{% endif %}
+        {% if post.has_next %}<button class="button"><a href="{{ url_for('index', page=post.next_num) }}">Next page</a></button>
+        {% else %}<button class="button" style="cursor: not-allowed;">Next page</button>{% endif %}
+    </div>
+    <div>
+
+            {% if signed_in %}
+            <a href="{{ url_for('post') }}">
+                <button class="button">New Post</button>
+            </a>
+        {% endif %}
+    </div>
     </div>
 </div>
 
-</body>
-</html>
+{% endblock %}
