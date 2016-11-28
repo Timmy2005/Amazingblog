@@ -89,7 +89,8 @@ def tcg(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
+            Post.type.contains('tcg'))
         users = User.query.all()
 
         return render_template('tcg.html',
@@ -100,7 +101,8 @@ def tcg(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
+            Post.type.contains('tcg'))
         users = User.query.all()
 
         return render_template('tcg.html',
@@ -116,7 +118,8 @@ def pokego(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
+            Post.type.contains('pokego'))
         users = User.query.all()
 
         return render_template('pokego.html',
@@ -127,7 +130,8 @@ def pokego(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
+            Post.type.contains('pokego'))
         users = User.query.all()
 
         return render_template('pokego.html',
@@ -143,7 +147,8 @@ def movies(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
+            Post.type.contains('movies'))
         users = User.query.all()
 
         return render_template('movies.html',
@@ -154,7 +159,8 @@ def movies(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
+            Post.type.contains('movies'))
         users = User.query.all()
 
         return render_template('movies.html',
@@ -162,6 +168,8 @@ def movies(page=1):
                                post=posts,
                                users=users,
                                signed_in=signed_in)
+
+
 
 
 @app.route('/extra')
