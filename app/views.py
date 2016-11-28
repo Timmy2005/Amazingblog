@@ -6,7 +6,7 @@ from flask import make_response
 from config import POSTS_PER_PAGE
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/index')
 @app.route('/index/<int:page>')
 def index(page=1):
