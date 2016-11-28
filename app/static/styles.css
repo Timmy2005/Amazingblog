@@ -50,7 +50,7 @@ div.footer{
     width: 78%;
     position: relative;
     z-index: 50;
-    box-shadow: 0 -8px 8px -7px rgba(0,0,0,0.5);
+    box-shadow: 0 -20px 30px -15px rgba(0,0,0,0.2);
     margin-left: 11%;
     min-height: 10%;
 }
@@ -99,7 +99,7 @@ div.footer{
     width: 100%;
     display: inline-block;
     position: relative;
-    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.4);
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.3);
     z-index: 99999;
 
 
