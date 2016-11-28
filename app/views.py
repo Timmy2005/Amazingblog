@@ -13,8 +13,8 @@ def index(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = models.Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
-        users = models.User.query.all()
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = User.query.all()
 
         return render_template('index.html',
                                title='Home',
@@ -24,8 +24,8 @@ def index(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = models.Post.query.all()
-        users = models.User.query.all()
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = User.query.all()
 
         return render_template('index.html',
                                title='Home',
@@ -84,88 +84,82 @@ def add():
 
 
 @app.route('/tcg')
-def tcg():
+@app.route('/tcg/<int:page>')
+def tcg(page=1):
     if request.cookies.get('user'):
-        yposts = Youtube.query.order_by(models.Youtube.id.desc()).all()
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.type.contains('tcg'))
-        post_ordered = posts.order_by(models.Post.id.desc()).all()
-        users = models.User.query.all()
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = User.query.all()
 
         return render_template('tcg.html',
                                title='TCG',
-                               post=post_ordered,
+                               post=posts,
                                users=users,
                                signed_in=signed_in,
-                               current_user=current_user,
-                               yposts=yposts)
-
+                               current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.filter(Post.type.contains('tcg'))
-        post_ordered = posts.order_by(models.Post.id.desc()).all()
-        users = models.User.query.all()
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = User.query.all()
 
         return render_template('tcg.html',
                                title='TCG',
-                               post=post_ordered,
+                               post=posts,
                                users=users,
                                signed_in=signed_in)
 
 
 @app.route('/pokego')
-def pokego():
+@app.route('/pokego/<int:page>')
+def pokego(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.type.contains('pokego'))
-        post_ordered = posts.order_by(models.Post.id.desc()).all()
-        users = models.User.query.all()
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = User.query.all()
 
         return render_template('pokego.html',
                                title='Pokemon Go',
-                               post=post_ordered,
+                               post=posts,
                                users=users,
                                signed_in=signed_in,
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.filter(Post.type.contains('pokego'))
-        post_ordered = posts.order_by(models.Post.id.desc()).all()
-        users = models.User.query.all()
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = User.query.all()
 
         return render_template('pokego.html',
-                               title='pokego',
-                               post=post_ordered,
+                               title='Pokemon Go',
+                               post=posts,
                                users=users,
                                signed_in=signed_in)
 
 
 @app.route('/movies')
-def movies():
+@app.route('/movies/<int:page>')
+def movies(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.type.contains('movies'))
-        post_ordered = posts.order_by(models.Post.id.desc()).all()
-        users = models.User.query.all()
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = User.query.all()
 
         return render_template('movies.html',
                                title='Movies',
-                               post=post_ordered,
+                               post=posts,
                                users=users,
                                signed_in=signed_in,
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.filter(Post.type.contains('movies'))
-        post_ordered = posts.order_by(models.Post.id.desc()).all()
-        users = models.User.query.all()
+        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        users = User.query.all()
 
         return render_template('movies.html',
                                title='Movies',
-                               post=post_ordered,
+                               post=posts,
                                users=users,
                                signed_in=signed_in)
 

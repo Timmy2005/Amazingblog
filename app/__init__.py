@@ -5,12 +5,14 @@ from flask.ext.login import LoginManager
 from flask.ext.openid import OpenID
 from config import basedir
 from flask.ext.heroku import Heroku
+from flask_migrate import Migrate
 
 
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 heroku = Heroku(app)
+migrate = Migrate(app, db)
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
