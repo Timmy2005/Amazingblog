@@ -7,7 +7,7 @@
     <title>Pokeblog</title>
     {% endif %}
     <link rel="stylesheet" href="../static/styles.css"/>
-    <link rel="shortcut icon" href="../static/Pictures/Pokeblog-header.png" />
+    <link rel="shortcut icon" href="../static/Pictures/Pokeblog-header.png"/>
     <script type="text/javascript" src="../static/main.js"></script>
 </head>
 <body>
@@ -15,42 +15,47 @@
     <div class="logo-pokemon">
         <img id="logo" src="../static/Pictures/pokemon-logo-1.gif">
     </div>
-<div class="selection">
 
-    <a href="{{ url_for('index')}}">
-        <button class="header-button">Home</button>
-    </a>
-    <a href="{{ url_for('pokego') }}">
-        <button class="header-button">Pokemon Go</button>
-    </a>
-    <a href="{{ url_for('tcg') }}">
-        <button class="header-button">TCG</button>
-    </a>
-    <a href="{{ url_for('movies') }}">
-        <button class="header-button">Movies</button>
-    </a>
-    <a href="{{ url_for('extra') }}">
-        <button class="header-button">Extra</button>
-    </a>
-    <button class="selection-text">Amazingblog.online</button>
-    {% if signed_in %}
-    <a href="{{ url_for('logout') }}">
-        <button class="header-button selection-text">Logout</button>
-    </a>
-    {% else %}
-    <a href="{{ url_for('login') }}">
-        <button class="header-button selection-text">Log in</button>
-    </a>
-    <a href="{{ url_for('add') }}">
-        <button class="header-button selection-text">Sign up</button>
-    </a>
-    {% endif %}
 
-    <form id="search-bar" action="{{ url_for('search') }}">
-        <input id="search-text" class="search" type="text" name="search" placeholder=" Search.." autocomplete="off">
-    </form>
+    <div class="selection">
+
+        <a href="{{ url_for('index')}}">
+            <button class="header-button">Home</button>
+        </a>
+        <a href="{{ url_for('pokego') }}">
+            <button class="header-button">Pokemon Go</button>
+        </a>
+        <a href="{{ url_for('tcg') }}">
+            <button class="header-button">TCG</button>
+        </a>
+        <a href="{{ url_for('movies') }}">
+            <button class="header-button">Movies</button>
+        </a>
+        <a href="{{ url_for('extra') }}">
+            <button class="header-button">Extra</button>
+        </a>
+        <button class="selection-text">Amazingblog.online</button>
+        {% if signed_in %}
+        <a href="{{ url_for('logout') }}">
+            <button class="header-button selection-text">Logout</button>
+        </a>
+        {% else %}
+        <a href="{{ url_for('login') }}">
+            <button class="header-button selection-text">Log in</button>
+        </a>
+        <a href="{{ url_for('add') }}">
+            <button class="header-button selection-text">Sign up</button>
+        </a>
+        {% endif %}
+        {% if title == 'New Post' or title == 'Edit' %}
+        {% else %}
+        <form id="search-bar" action="" method="post">
+            <input id="search-text" class="search" type="text" name="search" placeholder=" Search.." autocomplete="off">
+        </form>
+        {% endif %}
+    </div>
 </div>
-</div>
+
 <div>
     {% block content %}{% endblock %}
 </div>

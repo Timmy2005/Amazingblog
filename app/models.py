@@ -1,4 +1,6 @@
 from app import db
+from app import app
+import flask.ext.whooshalchemy as whooshalchemy
 
 
 class User(db.Model):
@@ -31,17 +33,20 @@ class User(db.Model):
 
 
 class Post(db.Model):
+    __searchable__ = ['body']
 
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String())
-    timestamp = db.Column(db.String)
+    timestamp = db.Column(db.String())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    title = db.Column(db.String(64))
+    title = db.Column(db.String())
     user = db.Column(db.String(64))
     type = db.Column(db.String())
 
     def __repr__(self):
-        return '<Post %r>' % self.body
+        return '<Post %r>' % self.title
+
+whooshalchemy.whoosh_index(app, Post)
 
 
 class Youtube(db.Model):

@@ -10,6 +10,8 @@
       <w>pokego</w>
       <w>ptype</w>
       <w>substr</w>
+      <w>tablename</w>
+      <w>whooshalchemy</w>
       <w>yposts</w>
     </words>
   </dictionary>
