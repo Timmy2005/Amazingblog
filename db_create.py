@@ -2,9 +2,8 @@ from app import db, models
 from datetime import datetime
 import app
 
-db.configure_mappers()
-
 app.db.drop_all()
+db.configure_mappers()
 app.db.create_all()
 u = models.User(username='timothy',
                 password='cleveland')

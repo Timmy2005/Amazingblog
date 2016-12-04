@@ -10,14 +10,14 @@ from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/index/<int:page>', methods=['GET', 'POST'])
 def index(page=1):
+    if request.method == 'POST':
+        query = request.form['search']
+        return redirect(url_for('search', query=query))
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
         posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
         users = User.query.all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('index.html',
                                title='Home',
                                post=posts,
@@ -28,9 +28,6 @@ def index(page=1):
         signed_in = False
         posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
         users = User.query.all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('index.html',
                                title='Home',
                                post=posts,
@@ -93,8 +90,8 @@ def tcg(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
-            Post.type.contains('tcg'))
+        posts = Post.query.filter(Post.type.contains('tcg')).order_by(models.Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
             query = request.form['search']
@@ -107,8 +104,8 @@ def tcg(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
-            Post.type.contains('tcg'))
+        posts = Post.query.filter(Post.type.contains('tcg')).order_by(models.Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
             query = request.form['search']
@@ -126,8 +123,8 @@ def pokego(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
-            Post.type.contains('pokego'))
+        posts = Post.query.filter(Post.type.contains('pokego')).order_by(models.Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
             query = request.form['search']
@@ -140,8 +137,8 @@ def pokego(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
-            Post.type.contains('pokego'))
+        posts = Post.query.filter(Post.type.contains('pokego')).order_by(models.Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
             query = request.form['search']
@@ -159,8 +156,8 @@ def movies(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
-            Post.type.contains('movies'))
+        posts = Post.query.filter(Post.type.contains('movies')).order_by(models.Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
             query = request.form['search']
@@ -173,8 +170,8 @@ def movies(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False).filter(
-            Post.type.contains('movies'))
+        posts = Post.query.filter(Post.type.contains('movies')).order_by(models.Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
             query = request.form['search']
@@ -297,9 +294,6 @@ def search(query):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
         posts = Post.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         users = models.User.query.all()
         return render_template('search_results.html',
                                title='Search Results',
@@ -309,12 +303,9 @@ def search(query):
                                current_user=current_user)
 
     else:
-        posts = Post.query.filter(Post.type.contains('actfigs'))
+        posts = Post.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
         posts.order_by(models.Post.id.desc()).all()
         users = models.User.query.all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('search_results.html',
                                title='Search Results',
                                post=posts,
