@@ -225,7 +225,6 @@ def post():
                      user=current_user,
                      type=pokeblog_type)
             db.session.add(p)
-            db.session.commit()
 
         return render_template('post.html',
                                title='New Post',
