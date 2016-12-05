@@ -16,7 +16,7 @@ def index(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.order_by(Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
         users = User.query.all()
         return render_template('index.html',
                                title='Home',
@@ -26,7 +26,7 @@ def index(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.order_by(models.Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.order_by(Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
         users = User.query.all()
         return render_template('index.html',
                                title='Home',
@@ -43,7 +43,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        users = models.User.query.all()
+        users = User.query.all()
         for i in users:
             if username == i.username:
                 if password == i.password:
@@ -63,7 +63,7 @@ def add():
     if request.method == 'POST':
         username = request.form['new-username']
         password = request.form['new-password']
-        users = models.User.query.all()
+        users = User.query.all()
         for i in users:
             if i.username == username:
                 if i.password == password:
@@ -72,7 +72,7 @@ def add():
                                            title='Create account - Pokeblog',
                                            error=error)
 
-        u = models.User(username=username, password=password)
+        u = User(username=username, password=password)
         db.session.add(u)
         db.session.commit()
         response = redirect(url_for("index"))
@@ -90,7 +90,7 @@ def tcg(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.type.contains('tcg')).order_by(models.Post.id.desc()).paginate(
+        posts = Post.query.filter(Post.type.contains('tcg')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
@@ -104,7 +104,7 @@ def tcg(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.filter(Post.type.contains('tcg')).order_by(models.Post.id.desc()).paginate(
+        posts = Post.query.filter(Post.type.contains('tcg')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
@@ -123,7 +123,7 @@ def pokego(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.type.contains('pokego')).order_by(models.Post.id.desc()).paginate(
+        posts = Post.query.filter(Post.type.contains('pokego')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
@@ -137,7 +137,7 @@ def pokego(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.filter(Post.type.contains('pokego')).order_by(models.Post.id.desc()).paginate(
+        posts = Post.query.filter(Post.type.contains('pokego')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
@@ -156,7 +156,7 @@ def movies(page=1):
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.type.contains('movies')).order_by(models.Post.id.desc()).paginate(
+        posts = Post.query.filter(Post.type.contains('movies')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
@@ -170,7 +170,7 @@ def movies(page=1):
                                current_user=current_user)
     else:
         signed_in = False
-        posts = Post.query.filter(Post.type.contains('movies')).order_by(models.Post.id.desc()).paginate(
+        posts = Post.query.filter(Post.type.contains('movies')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         if request.method == 'POST':
@@ -188,7 +188,7 @@ def extra():
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        users = models.User.query.all()
+        users = User.query.all()
         if request.method == 'POST':
             query = request.form['search']
             return redirect(url_for('search', query=query))
@@ -199,7 +199,7 @@ def extra():
                                current_user=current_user)
     else:
         signed_in = False
-        users = models.User.query.all()
+        users = User.query.all()
         if request.method == 'POST':
             query = request.form['search']
             return redirect(url_for('search', query=query))
@@ -214,7 +214,7 @@ def post():
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
-        users = models.User.query.all()
+        users = User.query.all()
         if request.method == 'POST':
             title = request.form['title']
             content = request.form['content']
@@ -246,15 +246,15 @@ def logout():
 def edit():
     url = request.url
     post_id_split = url.split("=")
-    p = models.Post.query.get(int(post_id_split[1]))
+    p = Post.query.get(int(post_id_split[1]))
     current_type = p.type
 
     signed_in = True
     current_user = request.cookies.get('user')
-    users = models.User.query.all()
+    users = User.query.all()
     if request.method == 'POST':
         commit_post_id = request.form['id']
-        p = models.Post.query.get(commit_post_id)
+        p = Post.query.get(commit_post_id)
         db.session.delete(p)
         db.session.commit()
         user_id = request.cookies.get('user')
@@ -283,7 +283,7 @@ def edit():
 def delete():
     url = request.url
     post_id_split = url.split("=")
-    p = models.Post.query.get(int(post_id_split[1]))
+    p = Post.query.get(int(post_id_split[1]))
     db.session.delete(p)
     db.session.commit()
     return redirect(url_for('index'))
@@ -294,7 +294,7 @@ def search(query):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
         posts = Post.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
-        users = models.User.query.all()
+        users = User.query.all()
         return render_template('search_results.html',
                                title='Search Results',
                                post=posts,
@@ -304,8 +304,8 @@ def search(query):
 
     else:
         posts = Post.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
-        posts.order_by(models.Post.id.desc()).all()
-        users = models.User.query.all()
+        posts.order_by(Post.id.desc()).all()
+        users = User.query.all()
         return render_template('search_results.html',
                                title='Search Results',
                                post=posts,
@@ -317,7 +317,7 @@ def search(query):
 def user():
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
-        users = models.User.query.all()
+        users = User.query.all()
         return render_template('user.html',
                                title='Search Results',
                                users=users,
@@ -326,8 +326,8 @@ def user():
 
     else:
         posts = Post.query.filter(Post.type.contains('actfigs'))
-        posts.order_by(models.Post.id.desc()).all()
-        users = models.User.query.all()
+        posts.order_by(Post.id.desc()).all()
+        users = User.query.all()
         error = 'You are not signed in. Login or sign up'
         return render_template('user.html',
                                title='Error',
