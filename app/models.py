@@ -33,8 +33,7 @@ class User(db.Model):
 
 
 class Post(db.Model):
-    __tablename__ = 'post'
-    __searchable__ = ['body']
+    __searchable__ = ['title']
 
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String())
@@ -46,6 +45,8 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % self.title
+
+whooshalchemy.whoosh_index(app, Post)
 
 
 class Youtube(db.Model):
