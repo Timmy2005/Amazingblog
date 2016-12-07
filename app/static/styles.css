@@ -99,7 +99,7 @@ div.footer{
     width: 100%;
     display: inline-block;
     position: relative;
-    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.3);
+    box-shadow: inset 1px 100px 0 rgba(0,0,0,.1);
     z-index: 99999;
 
 
@@ -228,14 +228,15 @@ input.search[type=text]:focus {
 
 
 .button{
-    background-color: red;
+    background-color: #0021ff;
     border: 0;
     padding: 5px 12px;
     border-radius: 7px;
-    box-shadow: -2px -2px 2px #D84124 inset, 2px 2px 3px #ff5c33 inset;
+    box-shadow: -2px -2px 2px #0016a5 inset, 2px 2px 3px #354ffc inset;
     margin-top: 10px;
     font-size: 12px;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    color: white;
 }
 
 .button:hover{
@@ -260,7 +261,7 @@ input.search[type=text]:focus {
 }
 
 #sign-up{
-        border-top: 1px solid #E3E4E5;
+
 }
 
 
@@ -274,16 +275,21 @@ input.search[type=text]:focus {
 }
 
 #login-header{
-    background-color: red;
+    background-color: #0021ff;
     min-height: 28px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     padding: 0 10px 10px 10px;
 }
 
-#login-logo{
-    width: 450px;
+img#login-logo{
+    width: 400px;
     height: 150px;
+}
+
+div.login-logo{
+    margin: auto;
+
 }
 
 .input-label{
@@ -328,6 +334,7 @@ span{
 }
 
 #posts-title{
+    margin-top: 10px;
     font-size: 24px;
     line-height: 1.35;
     font-weight: normal;
@@ -384,7 +391,7 @@ input[type=radio] {
 }
 
 a{
-    color: black;
+    color: white;
     text-decoration: none;
 
 }
@@ -392,4 +399,14 @@ a{
 .main-header{
     height: 120px;
 
+}
+
+input{
+    border: 1px solid #e4e6e8;
+    border-top: 2px inset #e4e6e8;
+
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
 }
