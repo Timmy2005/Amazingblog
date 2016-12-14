@@ -290,10 +290,10 @@ def delete():
 
 
 @app.route('/search/<query>', methods=['GET', 'POST'])
-def search(query, page=1):
+def search(query="n", page=1):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.title.contains('H')).order_by(Post.id.desc()).paginate(
+        posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         return render_template('search_results.html',
