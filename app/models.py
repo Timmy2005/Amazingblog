@@ -33,7 +33,7 @@ class User(db.Model):
 
 
 class Post(db.Model):
-    __searchable__ = ['title']
+    __searchable__ = ['body']
 
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String())

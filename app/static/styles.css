@@ -121,12 +121,12 @@ div.footer{
     background-color: white;
     width: 78%;
     font-size: larger;
-    margin: auto;
     border-radius: 0;
     overflow: scroll;
     max-height: 95%;
     z-index: 1;
-    
+    margin: 20px auto auto;
+
 }
 
 #main-with-youtube{
@@ -398,12 +398,6 @@ a{
 
 .main-header{
     height: 120px;
-
-}
-
-input{
-    border: 1px solid #e4e6e8;
-    border-top: 2px inset #e4e6e8;
 
 }
 
