@@ -289,7 +289,7 @@ def delete():
     return redirect(url_for('index'))
 
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search/<str:query>', methods=['GET', 'POST'])
 def search(query, page=1):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')

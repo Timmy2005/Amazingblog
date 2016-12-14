@@ -106,9 +106,21 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="292" column="16" selection-start-line="292" selection-start-column="16" selection-end-line="292" selection-end-column="16" />
-              <folding />
+            <state relative-caret-position="195">
+              <caret line="291" column="31" selection-start-line="291" selection-start-column="31" selection-end-line="291" selection-end-column="31" />
+              <folding>
+                <element signature="e#1518#2197#0" expanded="false" />
+                <element signature="e#2259#3166#0" expanded="false" />
+                <element signature="e#3239#4512#0" expanded="false" />
+                <element signature="e#4594#5893#0" expanded="false" />
+                <element signature="e#5975#7266#0" expanded="false" />
+                <element signature="e#7307#8228#0" expanded="false" />
+                <element signature="e#8292#9195#0" expanded="false" />
+                <element signature="e#9238#9361#0" expanded="false" />
+                <element signature="e#9425#10585#0" expanded="false" />
+                <element signature="e#10628#10813#0" expanded="false" />
+                <element signature="e#11987#12831#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1117,9 +1129,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="292" column="16" selection-start-line="292" selection-start-column="16" selection-end-line="292" selection-end-column="16" />
-          <folding />
+        <state relative-caret-position="195">
+          <caret line="291" column="31" selection-start-line="291" selection-start-column="31" selection-end-line="291" selection-end-column="31" />
+          <folding>
+            <element signature="e#1518#2197#0" expanded="false" />
+            <element signature="e#2259#3166#0" expanded="false" />
+            <element signature="e#3239#4512#0" expanded="false" />
+            <element signature="e#4594#5893#0" expanded="false" />
+            <element signature="e#5975#7266#0" expanded="false" />
+            <element signature="e#7307#8228#0" expanded="false" />
+            <element signature="e#8292#9195#0" expanded="false" />
+            <element signature="e#9238#9361#0" expanded="false" />
+            <element signature="e#9425#10585#0" expanded="false" />
+            <element signature="e#10628#10813#0" expanded="false" />
+            <element signature="e#11987#12831#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
