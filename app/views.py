@@ -290,10 +290,11 @@ def delete():
 
 
 @app.route('/search/<query>', methods=['GET', 'POST'])
-def search(query):
+def search(query, page=1):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
-        posts = Post.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
+        posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         users = User.query.all()
         return render_template('search_results.html',
                                title='Search Results',
@@ -303,7 +304,8 @@ def search(query):
                                current_user=current_user)
 
     else:
-        posts = Post.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
+        posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         posts.order_by(Post.id.desc()).all()
         users = User.query.all()
         return render_template('search_results.html',
