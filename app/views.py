@@ -11,8 +11,8 @@ from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
 @app.route('/index/<int:page>', methods=['GET', 'POST'])
 def index(page=1):
     if request.method == 'POST':
-        query = request.form['search']
-        return redirect(url_for('search', query=query))
+        #query = request.form['search']
+        return redirect(url_for('search', query="hi"))
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
