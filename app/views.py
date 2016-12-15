@@ -11,8 +11,8 @@ from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
 @app.route('/index/<int:page>', methods=['GET', 'POST'])
 def index(page=1):
     if request.method == 'POST':
-        #query = request.form['search']
-        return redirect(url_for('search'))
+        query = request.form['search']
+        return redirect(url_for('search', query=query))
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
@@ -289,8 +289,8 @@ def delete():
     return redirect(url_for('index'))
 
 
-@app.route('/search', methods=['GET', 'POST'])
-def search(page=1):
+@app.route('/search/<query>', methods=['GET', 'POST'])
+def search(query, page=1):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
         posts = Post.query.all()
