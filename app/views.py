@@ -12,7 +12,7 @@ from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
 def index(page=1):
     if request.method == 'POST':
         #query = request.form['search']
-        return redirect(url_for('search', query="hi"))
+        return redirect(url_for('search'))
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
@@ -293,6 +293,7 @@ def delete():
 def search(page=1):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
+
         posts = Post.query.filter(Post.title.contains("H")).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
