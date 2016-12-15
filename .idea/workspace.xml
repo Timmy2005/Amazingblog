@@ -106,8 +106,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+            <state relative-caret-position="285">
+              <caret line="295" column="31" selection-start-line="295" selection-start-column="31" selection-end-line="295" selection-end-column="31" />
               <folding>
                 <element signature="e#1506#2185#0" expanded="false" />
                 <element signature="e#2247#3154#0" expanded="false" />
@@ -119,7 +119,7 @@
                 <element signature="e#9226#9349#0" expanded="false" />
                 <element signature="e#9413#10573#0" expanded="false" />
                 <element signature="e#10616#10801#0" expanded="false" />
-                <element signature="e#11953#12797#0" expanded="false" />
+                <element signature="e#11987#12831#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1129,8 +1129,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+        <state relative-caret-position="285">
+          <caret line="295" column="31" selection-start-line="295" selection-start-column="31" selection-end-line="295" selection-end-column="31" />
           <folding>
             <element signature="e#1506#2185#0" expanded="false" />
             <element signature="e#2247#3154#0" expanded="false" />
@@ -1142,7 +1142,7 @@
             <element signature="e#9226#9349#0" expanded="false" />
             <element signature="e#9413#10573#0" expanded="false" />
             <element signature="e#10616#10801#0" expanded="false" />
-            <element signature="e#11953#12797#0" expanded="false" />
+            <element signature="e#11987#12831#0" expanded="false" />
           </folding>
         </state>
       </provider>

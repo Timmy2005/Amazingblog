@@ -293,9 +293,9 @@ def delete():
 def search(page=1):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
-
-        posts = Post.query.filter(Post.title.contains("H")).order_by(Post.id.desc()).paginate(
-            page, POSTS_PER_PAGE, False)
+        posts = Post.query.all()
+        #posts = Post.query.filter(Post.title.contains("H")).order_by(Post.id.desc()).paginate(
+        #    page, POSTS_PER_PAGE, False)
         users = User.query.all()
         return render_template('search_results.html',
                                title='Search Results',
