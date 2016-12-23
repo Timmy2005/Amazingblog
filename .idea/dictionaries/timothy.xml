@@ -13,6 +13,9 @@
       <w>substr</w>
       <w>tablename</w>
       <w>whooshalchemy</w>
+      <w>ydelete</w>
+      <w>yedit</w>
+      <w>ypost</w>
       <w>yposts</w>
     </words>
   </dictionary>

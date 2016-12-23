@@ -1,0 +1,42 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="background">
+    <div class="main">
+        <div align="center" id="posts-title">
+            Edit Post
+        </div>
+        <div>
+            <form method="post" action="">
+                <table>
+                    <tr>
+                        <td>
+                            <input name="title" placeholder="Title" autocomplete="off">
+                            <label>
+                                <input name="href" placeholder="URL" autocomplete="off" id="href" style="width: 262px">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="content" placeholder="Your post here..." id="content" spellcheck="true"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="button" value="Submit">
+                            <a href="{{ url_for('tcg') }}">
+                                <button class="button">Cancel</button>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

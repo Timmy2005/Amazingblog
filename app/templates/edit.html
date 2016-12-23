@@ -72,6 +72,10 @@
                     <tr>
                         <td>
                             <input type="submit" class="button" value="Save">
+                            {% if type == 'none' %}
+                            <input type="button" class="button" href="{{ url_for('index') }}" value="Cancel">
+                            {% else %}
+                            <input type="button" class="button" href="{{ url_for(type) }}" value="Cancel">
                         </td>
                     </tr>
                 </table>

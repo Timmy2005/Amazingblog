@@ -49,6 +49,7 @@ def login():
                 if password == i.password:
                     response = redirect(url_for("index"))
                     response.set_cookie('user', i.username)
+                    response.set_cookie('session-id', str(i.id))
                     return response
 
         error = 'Invalid login. Please try again.'
@@ -88,11 +89,16 @@ def add():
 @app.route('/tcg/<int:page>')
 def tcg(page=1):
     if request.cookies.get('user'):
+        session_id = request.cookies.get('session-id')
+        admin = False
+        if session_id == "1":
+            admin = True
         signed_in = True
         current_user = request.cookies.get('user')
         posts = Post.query.filter(Post.type.contains('tcg')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
+        yposts = Youtube.query.order_by(Youtube.id.desc()).all()
         if request.method == 'POST':
             query = request.form['search']
             return redirect(url_for('search', query=query))
@@ -101,12 +107,15 @@ def tcg(page=1):
                                post=posts,
                                users=users,
                                signed_in=signed_in,
-                               current_user=current_user)
+                               current_user=current_user,
+                               yposts=yposts,
+                               admin=admin)
     else:
         signed_in = False
         posts = Post.query.filter(Post.type.contains('tcg')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
+        yposts = Youtube.query.all()
         if request.method == 'POST':
             query = request.form['search']
             return redirect(url_for('search', query=query))
@@ -114,7 +123,9 @@ def tcg(page=1):
                                title='TCG',
                                post=posts,
                                users=users,
-                               signed_in=signed_in)
+                               signed_in=signed_in,
+                               yposts=yposts,
+                               admin=False)
 
 
 @app.route('/pokego')
@@ -226,19 +237,22 @@ def post():
                      type=pokeblog_type)
             db.session.add(p)
             db.session.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for(pokeblog_type))
 
         return render_template('post.html',
                                title='New Post',
                                users=users,
                                signed_in=signed_in,
                                current_user=current_user)
+    else:
+        return render_template(url_for('index'))
 
 
 @app.route('/logout')
 def logout():
     response = make_response(render_template('logout.html'))
     response.set_cookie('user', '', expires=0)
+    response.set_cookie('session-id', '', expires=0)
     return response
 
 
@@ -268,7 +282,7 @@ def edit():
                  type=ptype)
         db.session.add(p)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for(ptype))
 
     return render_template('edit.html',
                            title='Edit',
@@ -289,11 +303,12 @@ def delete():
     return redirect(url_for('index'))
 
 
-@app.route('/search/<query>', methods=['GET', 'POST'])
+@app.route('/search/<query>/<int:page>', methods=['GET', 'POST'])
 def search(query, page=1):
     if request.cookies.get('user'):
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc()).paginate(page, POSTS_PER_PAGE, False)
+        posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc()).paginate(
+            page, POSTS_PER_PAGE, False)
         users = User.query.all()
         return render_template('search_results.html',
                                title='Search Results',
@@ -303,7 +318,7 @@ def search(query, page=1):
                                current_user=current_user)
 
     else:
-        posts = Post.query.filter(Post.title.contains("h")).order_by(Post.id.desc()).paginate(
+        posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         posts.order_by(Post.id.desc()).all()
         users = User.query.all()
@@ -314,25 +329,89 @@ def search(query, page=1):
                                signed_in=False)
 
 
-@app.route('/user', methods=['GET'])
-def user():
-    if request.cookies.get('user'):
-        current_user = request.cookies.get('user')
-        users = User.query.all()
-        return render_template('user.html',
-                               title='Search Results',
-                               users=users,
-                               signed_in=True,
-                               current_user=current_user)
+# @app.route('/user', methods=['GET'])
+# def user():
+#     if request.cookies.get('user'):
+#         current_user = request.cookies.get('user')
+#         users = User.query.all()
+#         return render_template('user.html',
+#                                title='Search Results',
+#                                users=users,
+#                                signed_in=True,
+#                                current_user=current_user)
+#
+#     else:
+#         posts = Post.query.filter(Post.type.contains('actfigs'))
+#         posts.order_by(Post.id.desc()).all()
+#         users = User.query.all()
+#         error = 'You are not signed in. Login or sign up'
+#         return render_template('user.html',
+#                                title='Error',
+#                                post=posts,
+#                                users=users,
+#                                signed_in=False,
+#                                error=error)
 
+@app.route('/ypost', methods=['GET', 'POST'])
+def ypost():
+    session = request.cookies.get('session-id')
+    if session == '1':
+        pass
     else:
-        posts = Post.query.filter(Post.type.contains('actfigs'))
-        posts.order_by(Post.id.desc()).all()
-        users = User.query.all()
-        error = 'You are not signed in. Login or sign up'
-        return render_template('user.html',
-                               title='Error',
-                               post=posts,
-                               users=users,
-                               signed_in=False,
-                               error=error)
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        y = Youtube(
+            link=request.form['href'],
+            body=request.form['content'],
+            title=request.form['title'],
+            timestamp=datetime.now().strftime('%b %-d, %Y at %-I:%M %p')
+        )
+        db.session.add(y)
+        db.session.commit()
+        return redirect(url_for('tcg'))
+
+    return render_template('y-post.html',
+                           title='Youtube Post')
+
+
+@app.route('/yedit', methods=['GET', 'POST'])
+def yedit():
+    url = request.url
+    post_id_split = url.split("=")
+    p = Youtube.query.get(int(post_id_split[1]))
+    signed_in = True
+    current_user = request.cookies.get('user')
+    users = User.query.all()
+    if request.method == 'POST':
+        p = Youtube.query.get(int(post_id_split[1]))
+        db.session.delete(p)
+        db.session.commit()
+        title = request.form['title']
+        content = request.form['content']
+        href = request.form['href']
+
+        p = Youtube(title=title,
+                    body=content,
+                    timestamp=datetime.now().strftime('%b %-d, %Y at %-I:%M %p'),
+                    link=href)
+        db.session.add(p)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    return render_template('y-edit.html',
+                           title='Edit',
+                           p=p,
+                           users=users,
+                           signed_in=signed_in,
+                           current_user=current_user)
+
+
+@app.route('/ydelete')
+def ydelete():
+    url = request.url
+    post_id_split = url.split("=")
+    p = Youtube.query.get(int(post_id_split[1]))
+    db.session.delete(p)
+    db.session.commit()
+    return redirect(url_for('tcg'))

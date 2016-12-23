@@ -46,8 +46,16 @@
         </div>
         {% endfor %}
     </div>
-    <div class="footer"></div>
+    <div class="footer">
+    <div>
+        {% if post.has_prev %}<button class="button"><a href="{{ url_for('search', page=post.prev_num) }}">Previous page</a></button>
+        {% else %}<button class="button" style="cursor: not-allowed;">Previous page</button>{% endif %}
+        {% if post.has_next %}<button class="button"><a href="{{ url_for('search', page=post.next_num) }}">Next page</a></button>
+        {% else %}<button class="button" style="cursor: not-allowed;">Next page</button>{% endif %}
+    </div>
+    <div>
 
 </div>
-
+</div>
+</div>
 {% endblock %}

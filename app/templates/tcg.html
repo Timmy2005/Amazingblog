@@ -4,8 +4,8 @@
 {% block content %}
 
 <!--suppress ALL -->
-<div class="background">
-    <div class="main">
+<div class="background" style="height: 75%;">
+    <div class="main" style="width: 67%; margin: 2% 0 0 11%; float: left; height: 453px;">
         <div align="center" id="posts-title">
             TCG Posts
         </div>
@@ -46,21 +46,60 @@
         {% endfor %}
 
     </div>
-    <div class="footer">
-    <div>
-        {% if post.has_prev %}<button class="button"><a href="{{ url_for('index', page=post.prev_num) }}">Previous page</a></button>
-        {% else %}<button class="button" style="cursor: not-allowed;">Previous page</button>{% endif %}
-        {% if post.has_next %}<button class="button"><a href="{{ url_for('index', page=post.next_num) }}">Next page</a></button>
-        {% else %}<button class="button" style="cursor: not-allowed;">Next page</button>{% endif %}
-    </div>
-    <div>
+    <div class="youtube-post-div">
+        <div class="youtube-header">On Youtube</div>
+        <div class="youtube-main">
+            {% for y in yposts %}
+            <a style="display: block" href="http://{{ y.link }}" class="youtube-post-link">
+                <div class="youtube-post">
+                    <table>
+                        <tr>
+                            <td class="post-table"><p class="title post-table" style="font-size: small">{{ y.title }}</p></td>
+                        </tr>
+                        <tr>
+                            <td class="post-table"><p class="post-content post-table">{{ y.body }}</p></td>
+                        </tr>
+                        {% if admin %}
+                        <tr>
+                            <td style="width: 100%;">
+                                <form action="{{ url_for('yedit') }}">
+                                    <input type="hidden" value="{{ y.id }}" name="y-id">
+                                    <input value="Edit" type="submit" class="button" style="margin: 0;">
+                                </form>
+                                <form action="{{ url_for('ydelete') }}">
+                                    <input type="hidden" value="{{ y.id }}" name="y-id">
+                                    <input value="Delete" type="submit" class="button" style="margin: 0;">
+                                </form>
+                            </td>
+                        </tr>
+                        {% endif %}
 
-            {% if signed_in %}
-            <a href="{{ url_for('post') }}">
+                    </table>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% if admin %}
+        <div align="center">
+            <a href="{{ url_for('ypost') }}">
                 <button class="button">New Post</button>
             </a>
+        </div>
         {% endif %}
     </div>
+    <div class="footer" style="width: 67%; height: 10%; margin-top: 37.5%">
+        {% if post.has_prev %}<button class="button"><a href="{{ url_for('tcg', page=post.prev_num) }}">Previous page</a></button>
+        {% else %}<button class="button" style="cursor: not-allowed;">Previous page</button>{% endif %}
+        {% if post.has_next %}<button class="button"><a href="{{ url_for('tcg', page=post.next_num) }}">Next page</a></button>
+        {% else %}<button class="button" style="cursor: not-allowed;">Next page</button>{% endif %}
+        <div>
+    
+                {% if signed_in %}
+                <a href="{{ url_for('post') }}">
+                    <button class="button">New Post</button>
+                </a>
+            {% endif %}
+        </div>
     </div>
 </div>
 
