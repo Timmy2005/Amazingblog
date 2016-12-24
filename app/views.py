@@ -10,9 +10,6 @@ from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/index/<int:page>', methods=['GET', 'POST'])
 def index(page=1):
-    if request.method == 'POST':
-        query = request.form['search']
-        return redirect(url_for('search', query=query))
     if request.cookies.get('user'):
         signed_in = True
         current_user = request.cookies.get('user')
@@ -85,8 +82,8 @@ def add():
                            error=error)
 
 
-@app.route('/tcg')
-@app.route('/tcg/<int:page>')
+@app.route('/tcg', methods=['GET', 'POST'])
+@app.route('/tcg/<int:page>', methods=['GET', 'POST'])
 def tcg(page=1):
     if request.cookies.get('user'):
         session_id = request.cookies.get('session-id')
@@ -99,9 +96,6 @@ def tcg(page=1):
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         yposts = Youtube.query.order_by(Youtube.id.desc()).all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('tcg.html',
                                title='TCG',
                                post=posts,
@@ -116,9 +110,6 @@ def tcg(page=1):
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
         yposts = Youtube.query.all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('tcg.html',
                                title='TCG',
                                post=posts,
@@ -129,7 +120,7 @@ def tcg(page=1):
 
 
 @app.route('/pokego')
-@app.route('/pokego/<int:page>')
+@app.route('/pokego/<int:page>', methods=['GET', 'POST'])
 def pokego(page=1):
     if request.cookies.get('user'):
         signed_in = True
@@ -137,9 +128,6 @@ def pokego(page=1):
         posts = Post.query.filter(Post.type.contains('pokego')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('pokego.html',
                                title='Pokemon Go',
                                post=posts,
@@ -151,9 +139,6 @@ def pokego(page=1):
         posts = Post.query.filter(Post.type.contains('pokego')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('pokego.html',
                                title='Pokemon Go',
                                post=posts,
@@ -162,7 +147,7 @@ def pokego(page=1):
 
 
 @app.route('/movies')
-@app.route('/movies/<int:page>')
+@app.route('/movies/<int:page>', methods=['GET', 'POST'])
 def movies(page=1):
     if request.cookies.get('user'):
         signed_in = True
@@ -170,9 +155,6 @@ def movies(page=1):
         posts = Post.query.filter(Post.type.contains('movies')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('movies.html',
                                title='Movies',
                                post=posts,
@@ -184,9 +166,6 @@ def movies(page=1):
         posts = Post.query.filter(Post.type.contains('movies')).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         users = User.query.all()
-        if request.method == 'POST':
-            query = request.form['search']
-            return redirect(url_for('search', query=query))
         return render_template('movies.html',
                                title='Movies',
                                post=posts,
@@ -303,12 +282,15 @@ def delete():
     return redirect(url_for('index'))
 
 
-@app.route('/search/<query>/<int:page>', methods=['GET', 'POST'])
-def search(query, page=1):
+@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search/<int:page>', methods=['GET', 'POST'])
+def search(page=1):
     if request.cookies.get('user'):
+        url = request.url
+        post_id_split = url.split("=")
+        query = str(post_id_split[1])
         current_user = request.cookies.get('user')
-        posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc()).paginate(
-            page, POSTS_PER_PAGE, False)
+        posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc())
         users = User.query.all()
         return render_template('search_results.html',
                                title='Search Results',
@@ -318,6 +300,9 @@ def search(query, page=1):
                                current_user=current_user)
 
     else:
+        url = request.url
+        post_id_split = url.split("=")
+        query = str(post_id_split[1])
         posts = Post.query.filter(Post.title.contains(query)).order_by(Post.id.desc()).paginate(
             page, POSTS_PER_PAGE, False)
         posts.order_by(Post.id.desc()).all()

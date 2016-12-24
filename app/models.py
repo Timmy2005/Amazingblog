@@ -38,7 +38,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     title = db.Column(db.String())
     user = db.Column(db.String(64))
-    type = db.Column(db.String())
+    type = db.Column(db.String(), index=True)
 
     def __repr__(self):
         return '<Post %r>' % self.title

@@ -1,0 +1,22 @@
+Define an index on a single column:
+    class Table(db.Model):
+        column_1 = db.Column(..., index=True)
+        column_2 = db.Column(...)
+
+
+Define an index on multiple columns:
+
+    class Table(db.Model):
+        column_1 = db.Column(...)
+        column_2 = db.Column(...)
+
+    Index('index', Table.column_1, Table.column_2)
+
+
+Errors:
+    werkzeug.routing.BuildError: ('route', {}, None):
+        @app.route('/route/<int:page>' methods=[...])
+        ----> Change to
+        @app.route('/route' methods=[...])
+        @app.route('/route/<int:page>' methods=[...])
+
