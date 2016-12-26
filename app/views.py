@@ -216,6 +216,8 @@ def post():
                      type=pokeblog_type)
             db.session.add(p)
             db.session.commit()
+            if pokeblog_type == 'none':
+                return redirect(url_for('index'))
             return redirect(url_for(pokeblog_type))
 
         return render_template('post.html',
