@@ -12,6 +12,9 @@ Define an index on multiple columns:
 
     Index('index', Table.column_1, Table.column_2)
 
+Update columns:
+    admin = User.query.filter_by(username=='admin').update(dict(email='my_new_email@example.com'))
+    db.session.commit()
 
 Errors:
     werkzeug.routing.BuildError: ('route', {}, None):
@@ -19,4 +22,3 @@ Errors:
         ----> Change to
         @app.route('/route' methods=[...])
         @app.route('/route/<int:page>' methods=[...])
-

@@ -402,3 +402,7 @@ def ydelete():
     db.session.delete(p)
     db.session.commit()
     return redirect(url_for('tcg'))
+
+@app.route('/google6a55acc29dacc25a.html')
+def verification():
+    return render_template('google6a55acc29dacc25a.html')
